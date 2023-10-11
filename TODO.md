@@ -1,0 +1,3 @@
+- Add Unit Testing []
+- Add error handling []
+- Add functionality to display the board in console []
