@@ -62,6 +62,14 @@ func TestCheckGameBoard(t *testing.T) {
 			given: "XOOXOXOXO",
 			want:  "O wins!",
 		},
+		{
+			given: "OXOXOXXOX",
+			want:  "Its a draw!",
+		},
+		{
+			given: "XOXX--O--",
+			want:  "Game still in progress!",
+		},
 	}
 
 	game := NewTicTacToe()
