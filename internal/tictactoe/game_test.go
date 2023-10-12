@@ -79,15 +79,50 @@ func TestCheckGameBoard(t *testing.T) {
 			game.SplitIntoBoard(tc.given)
 			game.MapToPossibleCond()
 
-			res, err := game.CheckGameBoard()
-
-			if err != nil {
-				t.Fatalf("TestCheckGameBoard('XOXOOOXOO') result error %q", err.Error())
-			}
+			res := game.CheckGameBoard()
 
 			if res != tc.want {
 				t.Fatalf("TestCheckGameBoard('XOXOOOXOO') = %q want %#q", res, tc.want)
 			}
 		})
+	}
+}
+
+func TestStartGame(t *testing.T) {
+	game := NewTicTacToe()
+
+	testCases := []struct {
+		given string
+		want  string
+	}{
+		{
+			given: "XOXOOOXOO",
+			want:  "invalid game board",
+		},
+		{
+			given: "XOXXOOXXO",
+			want:  "X wins!",
+		},
+		{
+			given: "XOOXOXOXO",
+			want:  "O wins!",
+		},
+		{
+			given: "OXOXOXXOX",
+			want:  "Its a draw!",
+		},
+		{
+			given: "XOXX--O--",
+			want:  "Game still in progress!",
+		},
+	}
+
+	for _, tc := range testCases {
+		result := game.StartGame(tc.given)
+
+		// Check the result
+		if result != tc.want {
+			t.Errorf("Input: %s, Expected: %s, Got: %s", tc.given, tc.want, result)
+		}
 	}
 }
