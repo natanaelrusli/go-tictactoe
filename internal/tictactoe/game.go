@@ -2,7 +2,6 @@ package tictactoe
 
 import (
 	"fmt"
-	"log"
 	"strings"
 )
 
@@ -19,17 +18,13 @@ possibleCondMapping := map[int]string{
 }
 */
 
-func (game *TicTacToe) StartGame() {
-	userInput := GetUserInput()
+func (game *TicTacToe) StartGame(userInput string) string {
 	game.SplitIntoBoard(userInput)
 
-	res, err := game.CheckGameBoard()
-
-	if err != nil {
-		log.Println(err.Error())
-	}
+	res := game.CheckGameBoard()
 
 	fmt.Println(res)
+	return res
 }
 
 func (game *TicTacToe) SplitIntoBoard(userInput string) [3][3]string {
@@ -65,27 +60,27 @@ func (game *TicTacToe) MapToPossibleCond() {
 	game.possibleCond = possibleCond
 }
 
-func (game *TicTacToe) CheckGameBoard() (string, error) {
+func (game *TicTacToe) CheckGameBoard() string {
 	inProgress := game.checkGameInProgress()
 
 	if inProgress {
-		return "Game still in progress!", nil
+		return "Game still in progress!"
 	}
 
 	invalid := game.checkInvalidBoard()
 
 	if invalid {
-		return "invalid game board", nil
+		return "invalid game board"
 	}
 
 	for _, val := range game.possibleCond {
 		if val[0] == val[1] &&
 			val[0] == val[2] {
-			return fmt.Sprintf("%v wins!", val[0]), nil
+			return fmt.Sprintf("%v wins!", val[0])
 		}
 	}
 
-	return "Its a draw!", nil
+	return "Its a draw!"
 }
 
 func (game *TicTacToe) checkInvalidBoard() bool {
