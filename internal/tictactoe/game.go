@@ -21,6 +21,9 @@ possibleCondMapping := map[int]string{
 func (game *TicTacToe) StartGame(userInput string) string {
 	game.SplitIntoBoard(userInput)
 
+	board := game.DisplayBoard()
+	fmt.Print(board)
+
 	res := game.CheckGameBoard()
 
 	fmt.Println(res)

@@ -33,3 +33,13 @@ func GetUserInput(reader io.Reader) string {
 
 	return userInput
 }
+
+func (game *TicTacToe) DisplayBoard() string {
+	resultString := "\nGAME BOARD\n"
+
+	for _, v := range game.board {
+		resultString += v[0] + " | " + v[1] + " | " + v[2] + "\n"
+	}
+
+	return resultString
+}
