@@ -1,17 +1,85 @@
 package tictactoe
 
 import (
+	"fmt"
 	"testing"
 )
 
 func TestSplitIntoBoard(t *testing.T) {
 	given := "XOXOOOXOO"
-	want := [3][3]string{{"X", "O", "X"}, {"O", "O", "O"}, {"X", "O", "O"}}
+	want := [3][3]string{
+		{"X", "O", "X"},
+		{"O", "O", "O"},
+		{"X", "O", "O"},
+	}
 
 	game := NewTicTacToe()
-	res := game.SplitIntoBoard(given)
+	game.SplitIntoBoard(given)
 
+	res := game.board
 	if res != want {
-		t.Fatalf(`SplitIntoBoard("XOXOOOXOX") = %q want: %#q`, res, want)
+		t.Fatalf("SplitIntoBoard() = %q want %#q", res, want)
+	}
+}
+
+func TestMoveToPossibleCond(t *testing.T) {
+	given := "XOXOOOXOO"
+	want := [8][3]string{
+		{"X", "O", "O"},
+		{"X", "O", "X"},
+		{"X", "O", "X"},
+		{"O", "O", "O"},
+		{"X", "O", "O"},
+		{"X", "O", "X"},
+		{"O", "O", "O"},
+		{"X", "O", "O"},
+	}
+
+	game := NewTicTacToe()
+	game.SplitIntoBoard(given)
+	game.MapToPossibleCond()
+
+	res := game.possibleCond
+	if res != want {
+		t.Fatalf("MapToPossibleCond() = %q want %#q", res, want)
+	}
+}
+
+func TestCheckGameBoard(t *testing.T) {
+	testCases := []struct {
+		given string
+		want  string
+	}{
+		{
+			given: "XOXOOOXOO",
+			want:  "invalid game board",
+		},
+		{
+			given: "XOXXOOXXO",
+			want:  "X wins!",
+		},
+		{
+			given: "XOOXOXOXO",
+			want:  "O wins!",
+		},
+	}
+
+	game := NewTicTacToe()
+
+	for _, tc := range testCases {
+		t.Run(fmt.Sprintf("TestCheckGameBoard given %q want %q", tc.given, tc.want), func(t *testing.T) {
+			game.SplitIntoBoard(tc.given)
+			game.MapToPossibleCond()
+
+			res, err := game.CheckGameBoard()
+
+			if err != nil {
+				t.Fatalf("TestCheckGameBoard('XOXOOOXOO') result error %q", err.Error())
+			}
+
+			if res != tc.want {
+				t.Fatalf("TestCheckGameBoard('XOXOOOXOO') = %q want %#q", res, tc.want)
+			}
+		})
 	}
 }

@@ -61,6 +61,7 @@ func (game *TicTacToe) MapToPossibleCond() {
 		{game.board[0][1], game.board[1][1], game.board[2][1]},
 		{game.board[0][2], game.board[1][2], game.board[2][2]},
 	}
+
 	game.possibleCond = possibleCond
 }
 
@@ -80,7 +81,7 @@ func (game *TicTacToe) CheckGameBoard() (string, error) {
 	for _, val := range game.possibleCond {
 		if val[0] == val[1] &&
 			val[0] == val[2] {
-			return fmt.Sprintf("%v win!", val[0]), nil
+			return fmt.Sprintf("%v wins!", val[0]), nil
 		}
 	}
 
